@@ -49,6 +49,26 @@ const userContract = c.router({
     body: c.type<Omit<UserType.User, "id">>(),
     summary: "Get a post by id",
   },
+  sendEmail: {
+    method: "POST",
+    path: "/api/users/sendEmail",
+    responses: {
+      200: z.object({
+        status: z.string().openapi({
+          title: "status",
+          description: "status of sending email",
+          example: "success",
+        }),
+      }),
+    },
+    body: z.object({
+      email: z.string().openapi({
+        title: "email",
+        description: "user's email",
+        example: "156132264@qq.com",
+      }),
+    }),
+  },
 });
 
 const contract = c.router({
