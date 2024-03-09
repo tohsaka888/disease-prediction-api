@@ -6,4 +6,9 @@ declare module UserType {
     sex: "male" | "female";
     birthday: string; // "YYYY-MM-DD"
   };
+
+  export type UserCache = {
+    email: string;
+    code: string;
+  };
 }

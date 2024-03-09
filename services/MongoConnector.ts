@@ -19,16 +19,18 @@ class MongoConnector {
     return MongoConnector.instance;
   }
 
-  async connect(url: string, dbName: string): Promise<void> {
+  async connect(url: string, dbName: string): Promise<MongoClient | undefined> {
     if (!this.db) {
       const client = new MongoClient(url);
       await client.connect();
       this.db = client.db(dbName);
       this.client = client;
+      return this.client;
     }
   }
 
   async getDb(): Promise<Db> {
+    await this.connect(MONGO_URI, DATABASE_NAME);
     if (!this.db) {
       throw new Error("Database connection has not been established.");
     }
@@ -41,7 +43,5 @@ class MongoConnector {
     }
   }
 }
-
-MongoConnector.getInstance().connect(MONGO_URI, DATABASE_NAME);
 
 export default MongoConnector.getInstance();

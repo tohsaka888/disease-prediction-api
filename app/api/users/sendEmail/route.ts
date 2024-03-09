@@ -1,3 +1,4 @@
+import { cacheEmailCode } from "@services/cache";
 import * as nodemailer from "nodemailer";
 import { v4 as uuidv4 } from "uuid";
 
@@ -23,6 +24,7 @@ export async function POST(req: Request) {
       subject: "Hello 👋欢迎使用慧珍，请查收您的验证码",
       text: `您的验证码是：${randomCode}`,
     });
+    await cacheEmailCode({ email, code: randomCode });
     return Response.json({ status: "success" }, { status: 200 });
   } catch (error) {
     return Response.json(

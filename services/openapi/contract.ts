@@ -69,6 +69,53 @@ const userContract = c.router({
       }),
     }),
   },
+  verifyEmail: {
+    method: "POST",
+    path: "/api/users/verifyEmail",
+    responses: {
+      200: z.object({
+        status: z.string().openapi({
+          title: "status",
+          description: "status of sending email",
+          example: "success",
+        }),
+        needRegister: z.boolean().openapi({
+          title: "needRegister",
+          description: "indicates if user needs to register",
+          example: false,
+        }),
+        message: z.string().openapi({
+          title: "message",
+          description: "additional message",
+          example: "User already exists",
+        }),
+      }),
+      403: z.object({
+        status: z.string().openapi({
+          title: "status",
+          description: "status of sending email",
+          example: "error",
+        }),
+        message: z.string().openapi({
+          title: "message",
+          description: "error message",
+          example: "Invalid code",
+        }),
+      }),
+    },
+    body: z.object({
+      email: z.string().openapi({
+        title: "email",
+        description: "user's email",
+        example: "156132264@qq.com",
+      }),
+      code: z.string().openapi({
+        title: "code",
+        description: "verification code",
+        example: "ABC123",
+      }),
+    }),
+  },
 });
 
 const contract = c.router({
